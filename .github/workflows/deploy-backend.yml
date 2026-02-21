@@ -1,0 +1,57 @@
+name: Deploy Backend to Production (GHCR)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 🔐 Login a GHCR usando GITHUB_TOKEN
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 🏗 Build y push de imagen
+      - name: Build and Push Docker Image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/core-consultinggroup:latest
+          docker build -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
+
+      # 🚀 Deploy en el servidor
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/core-consultinggroup:latest
+
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            docker pull $IMAGE_NAME
+
+            docker stop nest-backend || true
+            docker rm nest-backend || true
+
+            docker run -d \
+              --name nest-backend \
+              -p 3002:3000 \
+              -e SENDGRID_API_KEY='${{ secrets.SENDGRID_API_KEY }}' \
+              --restart unless-stopped \
+              $IMAGE_NAME
