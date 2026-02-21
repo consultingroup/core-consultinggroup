@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformResponseInterceptor());
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://143.198.129.49','http://143.198.129.49:3001'],
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://143.198.129.49','http://143.198.129.49:3001','https://consultinggroup.com.pe','https://www.consultinggroup.com.pe'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
