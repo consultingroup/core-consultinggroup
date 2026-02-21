@@ -38,9 +38,12 @@ export class EmailService {
     evidencia?: Multer.File, // El archivo viene del controller, es opcional
   ): Promise<boolean> {
     const templatePath = path.join(
-      process.cwd(),
-      'src/modules/email/templates/claims-book.html',
+      __dirname,
+      '..',
+      'templates',
+      'claims-book.html',
     );
+    this.logger.log(`Template path: ${templatePath}`);
     const htmlTemplate = fs.readFileSync(templatePath, 'utf8');
 
     // Reemplaza todas las variables del template con los datos del formulario
