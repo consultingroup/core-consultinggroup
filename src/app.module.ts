@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { configLoader } from 'src/common/config-loader'
+import { configLoader } from 'src/common/config-loader';
 import { ConfigModule } from '@nestjs/config';
 import { EmailModule } from './modules/email/email.module';
 
@@ -7,13 +7,13 @@ import { EmailModule } from './modules/email/email.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [configLoader]
+      load: [configLoader],
     }),
 
     //modules
-    EmailModule
+    EmailModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}
