@@ -39,7 +39,6 @@ export class EmailService {
   ): Promise<boolean> {
     const templatePath = path.join(
       __dirname,
-      '..',
       'templates',
       'claims-book.html',
     );
