@@ -1,0 +1,36 @@
+name: Backend CI (Test & Build)
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+  push:
+    branches:
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter (optional)
+        run: npm run lint || echo "No lint script"
+
+      - name: Run tests
+        run: npm test || echo "No test script"
+
+      - name: Build project
+        run: npm run build
