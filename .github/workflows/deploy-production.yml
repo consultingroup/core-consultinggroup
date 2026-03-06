@@ -52,6 +52,7 @@ jobs:
             docker run -d \
               --name nest-backend \
               -p 3002:3000 \
+              -m 800m \
               -e SENDGRID_API_KEY='${{ secrets.SENDGRID_API_KEY }}' \
               --restart unless-stopped \
               $IMAGE_NAME
