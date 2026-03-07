@@ -4,7 +4,6 @@ import {
   Body,
   UseInterceptors,
   UploadedFile,
-  Get,
 } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { VerificationDto } from './dto/verification.dto';
@@ -17,13 +16,10 @@ import {
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Multer } from 'multer';
-import { Logger } from '@nestjs/common';
 
 @ApiTags('Email')
 @Controller('email')
-
 export class EmailController {
-  private readonly logger = new Logger(EmailController.name);
   constructor(private emailService: EmailService) {}
 
   @Post('send')
@@ -49,18 +45,5 @@ export class EmailController {
     @UploadedFile() evidencia?: Multer.File, // El archivo es opcional
   ) {
     return await this.emailService.sendClaimsBook(verificationDto, evidencia);
-  }
-
-  @Get('test')
-  @ApiOperation({ summary: 'Endpoint de prueba para verificar que el controlador funciona' })
-  testEndpoint() {
-    this.logger.log('Petición recibida en /email/test');
-    return {
-      statusCode: 200,
-      message: 'Test endpoint is working',
-      data: null,
-      errors: null,
-      meta: null,
-    };
   }
 }
