@@ -70,7 +70,7 @@ export class EmailService {
 
     // Arma el mensaje base
     const msg: sendGridMail.MailDataRequired = {
-      to: 'obregonjefferson2@gmail.com',
+      to: 'administracion@consultinggroup.com.pe',
       from: 'info@consultinggroup.com.pe',
       replyTo: data.email,
       subject: `[${data.tipoRegistro}] Libro de Reclamaciones - ${data.nombres} ${data.apellidos}`,
