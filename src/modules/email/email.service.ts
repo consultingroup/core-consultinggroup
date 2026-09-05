@@ -82,8 +82,8 @@ export class EmailService {
 
     try {
       const response = await this.resend.emails.send({
-        from: 'administracion@consultinggroup.com.pe', // Cambia a 'info@consultinggroup.com.pe' cuando verifiques el dominio
-        to: 'obregonjefferson2@gmail.com',
+        from: 'administracion@consultinggroup.com.pe',
+        to: 'administracion@consultinggroup.com.pe',
         replyTo: data.email,
         subject: `[${data.tipoRegistro}] Libro de Reclamaciones - ${data.nombres} ${data.apellidos}`,
         html: finalHtml,
