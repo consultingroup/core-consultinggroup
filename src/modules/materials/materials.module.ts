@@ -5,7 +5,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Material } from './materials.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Material])],
+  imports: [
+    SequelizeModule.forFeature([Material])
+  ],
   controllers: [MaterialsController],
   providers: [MaterialsService],
 })

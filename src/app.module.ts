@@ -5,6 +5,10 @@ import { EmailModule } from './modules/email/email.module';
 import { SequelizeModule } from "@nestjs/sequelize";
 import { UsersModule } from './modules/users/users.module';
 import { MaterialsModule } from './modules/materials/materials.module';
+import { CourseModule } from './modules/course/course.module';
+import { SeccionModule } from './modules/seccion/seccion.module';
+import { AppController } from 'src/modules/app.controller';
+import { AppService } from 'src/modules/app.service';
 
 @Module({
   imports: [
@@ -36,9 +40,11 @@ import { MaterialsModule } from './modules/materials/materials.module';
     //modules
     EmailModule,
     UsersModule,
-    MaterialsModule
+    MaterialsModule,
+    CourseModule,
+    SeccionModule
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule { }
