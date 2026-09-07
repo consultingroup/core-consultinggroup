@@ -1,21 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { Material } from './materials.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { Op } from 'sequelize';
+import { Material } from './materials.model';
 
 @Injectable()
 export class MaterialsService {
-
   constructor(
     @InjectModel(Material)
-    private materialRespository: typeof Material,
-  ) { }
+    private materialRepository: typeof Material,
+  ) {}
 
+  async findAllMaterials(
+    page = 1,
+    limit = 10,
+    search?: string,
+  ) {
+    const offset = (page - 1) * limit;
 
-  async findAllMaterials(): Promise<Material[]> {
-    return await this.materialRespository.findAll({
-      limit: 10,
+    const where: any = {};
+
+    if (search) {
+      where.nombre = {
+        [Op.like]: `%${search}%`,
+      };
+    }
+
+    return this.materialRepository.findAndCountAll({
+      where,
+      limit,
+      offset,
       order: [['id_material', 'DESC']],
     });
   }
-
 }
